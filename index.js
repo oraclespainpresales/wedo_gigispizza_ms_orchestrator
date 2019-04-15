@@ -35,24 +35,7 @@ app.post('/createOrder', async (req, res) => {
     let other2dbPayload = "payload"
     adapters.use(config.jsondb.insert, order).then((resJSONDB) => {
 
-        //TODO Call other DB if Json Response is 200
-        adapters.use(config.other1db, other1dbPayload).then((resOther1DB) => {
-
-            //TODO Call other DB if prevoius Response is 200
-            adapters.use(config.other2db, other2dbPayload).then((resOther2DB) => {
-
-
-                res.send("Order Created");
-
-
-            }).catch((err) => {
-                console.log("Error: " + err)
-            })
-
-
-        }).catch((err) => {
-            console.log("Error: " + err)
-        })
+        res.send("Order Created");
 
     }).catch((err) => {
         console.log("Error: " + err)

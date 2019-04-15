@@ -1,13 +1,13 @@
 module.exports = {
 //################## Web server Config ##########################
-    PORT = 4000,
-    HOST = 'localhost',
+    PORT : process.env.ORCH_PORT || 4000,
+    HOST : process.env.ORCH_HOST || 'localhost',
 
 //############### JSON DB CONFIG ########################
     jsondb: {
         insert: {
-            host: "localhost",
-            port: 8080,
+            host: process.env.JSON_DB_HOST || "130.61.57.83",
+            port: process.env.JSON_DB_PORT || 31506,
             method: 'POST',
             path: '/insertValue',
             headers: {
