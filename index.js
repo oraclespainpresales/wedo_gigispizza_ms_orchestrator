@@ -30,12 +30,29 @@ app.post('/createOrder', async (req, res) => {
     //Payload to call at "config.jsondb.insert"
     let order = req.body.order
 
+    let payment = req.body.payment
+
     //TODO OtherDBs payload
-    let other1dbPayload = "payload"
-    let other2dbPayload = "payload"
+    //let customerAdress = req.body.customerAdress
+    //Do not forget to put the metadata on nodeJS
     adapters.use(config.jsondb.insert, order).then((resJSONDB) => {
 
-        res.send("Order Created");
+        adapters.use(config.sqldb.insert, payment).then((resSQLDB) => {
+
+            //TO remove once you added the call to GraphDB
+            res.send({"resJSONDB": resJSONDB, "resSQLDB": resSQLDB});
+/*
+            adapters.use(config.graphdb.insert, payment).then((resGraphDB) => {
+
+                res.send({"resJSONDB": resJSONDB, "resSQLDB": resSQLDB, "resGraphDB" : resGraphDB});
+        
+            }).catch((err) => {
+                console.log("Error: " + err)
+            })
+*/
+        }).catch((err) => {
+            console.log("Error: " + err)
+        })
 
     }).catch((err) => {
         console.log("Error: " + err)
