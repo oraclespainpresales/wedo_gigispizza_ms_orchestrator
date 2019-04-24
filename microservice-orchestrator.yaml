@@ -1,0 +1,49 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: microservice-orchestrator
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: microservice-orchestrator
+        version: v1
+    spec:
+      containers:
+      - name: microservice-orchestrator
+        image:  fra.ocir.io/wedoinfra/wedodevops/msorchestrator:latest
+        env:
+        - name: ORCH_PORT
+          value: "8080"
+        - name: ORCH_HOST
+          value: "0.0.0.0"
+        - name: JSON_DB_HOST
+          value: "130.61.57.83"
+        - name: JSON_DB_PORT
+          value: "31506"
+        - name: SQL_DB_HOST
+          value: "130.61.57.83"
+        - name: SQL_DB_PORT
+          value: "31323"
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+        - name: ocirsecret
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: microservice-orchestrator
+  labels:
+    app: microservice-orchestrator
+spec:
+  type: NodePort
+  selector:
+    app: microservice-orchestrator
+  ports:
+  - port: 8080
+    targetPort: 8080
+    name: http
+---
