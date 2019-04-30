@@ -24,6 +24,13 @@ app.post('/getOrder', async (req, res) => {
     })
 });
 
+app.post('/getPayment', async (req, res) => {
+    adapters.use(config.sqldb.query, req.body).then((resDB) => {
+        res.send(resDB);
+    }).catch((err) => {
+        console.log("Error: " + err)
+    })
+});
 
 app.post('/createOrder', async (req, res) => {
 

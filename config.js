@@ -39,10 +39,10 @@ module.exports = {
             }
         },
         query: {
-            host: process.env.SQL_DB_HOST || "130.61.83.91",
-            port: process.env.SQL_DB_PORT || 31323,
-            method: 'GET',
-            path: '/helidon/payment',
+            host: process.env.SQL_DB_HOST || "130.61.57.83",
+            port: process.env.SQL_DB_PORT || 31420,
+            method: 'POST',
+            path: '/helidon/selectpayment',
             headers: {
                 'Content-Type': 'application/json'
             }
