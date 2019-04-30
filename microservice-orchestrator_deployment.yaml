@@ -25,7 +25,7 @@ spec:
         - name: SQL_DB_HOST
           value: "130.61.57.83"
         - name: SQL_DB_PORT
-          value: "31323"
+          value: "31420"
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
