@@ -3,8 +3,6 @@ apiVersion: extensions/v1beta1
 metadata:
   name: microservice-orchestrator
   namespace: default
-  annotations:
-    external-dns.alpha.kubernetes.io/hostname: www.gigispizzamadrid.com
 spec:
   replicas: 1
   template:
@@ -39,8 +37,11 @@ kind: Service
 apiVersion: v1
 metadata:
   name: microservice-orchestrator
+  namespace: default
   labels:
     app: microservice-orchestrator
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: gigispizzamadrid.com
 spec:
   type: LoadBalancer
   selector:
