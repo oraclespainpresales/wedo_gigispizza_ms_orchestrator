@@ -4,7 +4,7 @@ metadata:
   name: microservice-orchestrator
   namespace: default
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: www.gigis.pizza.madrid.com
+    external-dns.alpha.kubernetes.io/hostname: www.gigispizzamadrid.com
 spec:
   replicas: 1
   template:
