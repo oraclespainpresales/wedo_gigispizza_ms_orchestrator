@@ -2,6 +2,9 @@ kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
   name: microservice-orchestrator
+  namespace: default
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: www.gigis.pizza.madrid.com
 spec:
   replicas: 1
   template:
@@ -39,11 +42,11 @@ metadata:
   labels:
     app: microservice-orchestrator
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: microservice-orchestrator
   ports:
-  - port: 8080
+  - port: 80
     targetPort: 8080
     name: http
 ---
