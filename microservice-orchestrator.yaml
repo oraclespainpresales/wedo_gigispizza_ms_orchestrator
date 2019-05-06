@@ -41,7 +41,7 @@ metadata:
   labels:
     app: microservice-orchestrator
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: gigispizzamadrid.com
+    external-dns.alpha.kubernetes.io/hostname: gigis.pizza.madrid.com
 spec:
   type: LoadBalancer
   selector:
