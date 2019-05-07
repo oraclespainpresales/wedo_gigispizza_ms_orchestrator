@@ -6,8 +6,10 @@ module.exports = {
     //############### JSON DB CONFIG ########################
     jsondb: {
         insert: {
-            host: process.env.JSON_DB_HOST || "130.61.57.83",
-            port: process.env.JSON_DB_PORT || 31506,
+            //host: process.env.JSON_DB_HOST || "130.61.57.83",
+            host: process.env.JSON_DB_HOST || "10.96.58.204",
+            //port: process.env.JSON_DB_PORT || 31506,
+            port: process.env.JSON_DB_PORT || 32571,
             method: 'POST',
             path: '/insertValue',
             headers: {
@@ -15,8 +17,8 @@ module.exports = {
             }
         },
         query: {
-            host: process.env.JSON_DB_HOST || "130.61.57.83",
-            port: process.env.JSON_DB_PORT || 31506,
+            host: process.env.JSON_DB_HOST || "10.96.58.204",
+            port: process.env.JSON_DB_PORT || 32571,
             method: 'POST',
             path: '/queryTable',
             headers: {
@@ -30,8 +32,10 @@ module.exports = {
     //TODO Other DB configs
     sqldb: {
         insert: {
-            host: process.env.SQL_DB_HOST || "130.61.83.91",
-            port: process.env.SQL_DB_PORT || 31323,
+            //host: process.env.SQL_DB_HOST || "130.61.83.91",
+            //port: process.env.SQL_DB_PORT || 31323,
+            host: process.env.SQL_DB_HOST || "10.96.250.127",
+            port: process.env.SQL_DB_PORT || 31628,
             method: 'POST',
             path: '/helidon/payment',
             headers: {
@@ -39,8 +43,8 @@ module.exports = {
             }
         },
         query: {
-            host: process.env.SQL_DB_HOST || "130.61.57.83",
-            port: process.env.SQL_DB_PORT || 31420,
+            host: process.env.SQL_DB_HOST || "10.96.250.127",
+            port: process.env.SQL_DB_PORT || 31628,
             method: 'POST',
             path: '/helidon/selectpayment',
             headers: {
