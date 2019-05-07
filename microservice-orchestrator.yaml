@@ -22,11 +22,11 @@ spec:
         - name: JSON_DB_HOST
           value: "10.96.58.204"
         - name: JSON_DB_PORT
-          value: "32571"
+          value: "8080"
         - name: SQL_DB_HOST
           value: "10.96.250.127"
         - name: SQL_DB_PORT
-          value: "31628"
+          value: "9002"
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
