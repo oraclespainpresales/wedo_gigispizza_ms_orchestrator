@@ -35,6 +35,7 @@ function use(config, data) {
         });
 
         //send request
+        console.log("INFO (before stringify): " + body)
         req.write(JSON.stringify(body));
         req.end();
     });
