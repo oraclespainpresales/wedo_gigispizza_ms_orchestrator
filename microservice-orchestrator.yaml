@@ -42,6 +42,8 @@ metadata:
     app: microservice-orchestrator
   annotations:
     external-dns.alpha.kubernetes.io/hostname: madrid.gigispizza.wedoteam.io
+    service.beta.kubernetes.io/oci-load-balancer-ssl-ports: "443"
+    service.beta.kubernetes.io/oci-load-balancer-tls-secret: ssl-certificate-secret
 spec:
   type: LoadBalancer
   selector:
@@ -50,4 +52,7 @@ spec:
   - port: 80
     targetPort: 8080
     name: http
+  - port: 443
+    targetPort: 8080
+    name: https 
 ---
