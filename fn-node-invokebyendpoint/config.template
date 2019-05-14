@@ -1,0 +1,7 @@
+tenancyId: ocid1.tenancy.oc1..aaaaaaaa4cas4diymcy4marah3gnk6zijsmtkmzcbsepmgdnmk252afel66a
+compartmentId: ocid1.compartment.oc1..aaaaaaaa4x37s4d7dvodu2jkjdpzkyhlt3ftfbeehfffl6du6vrlxiyowxva
+userId: ocid1.user.oc1..aaaaaaaayhg56bn43hu7n3zekx2vvzylmk6ts53i6qhkodydzs5dfmciwcfa
+keyFingerprint: 08:bf:39:9e:6c:2e:ef:57:6e:30:36:af:54:30:59:88 
+privateKeyPath: /home/fernando/.oci/oci_api_key.pem
+passphrase:
+This one will not be used!
