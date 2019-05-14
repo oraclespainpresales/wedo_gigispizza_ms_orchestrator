@@ -103,7 +103,38 @@ app.post('/createOrder', async (req, res) => {
                 console.log("Total to pay after discount applied :" + payment.totalPayed + "$");
                 console.log("Total to pay after discount applied :" + payment.totalPayed + "$");
             })
-        } else console.log("Not eligible to discount");
+        } else{
+            console.log("Not eligible to discount");
+                //TODO OtherDBs payload
+                //let customerAdress = req.body.customerAdress
+                //Do not forget to put the metadata on nodeJS
+                adapters.use(config.jsondb.insert, order).then((resJSONDB) => {
+
+
+                    console.log("Total to pay after discount applied (1***):" + payment.totalPayed + "$");
+                    adapters.use(config.sqldb.insert, payment).then((resSQLDB) => {
+
+                        //TO remove once you added the call to GraphDB
+                        res.send({ "resJSONDB": resJSONDB, "resSQLDB": resSQLDB });
+                        /*
+                                    adapters.use(config.graphdb.insert, payment).then((resGraphDB) => {
+                        
+                                        res.send({"resJSONDB": resJSONDB, "resSQLDB": resSQLDB, "resGraphDB" : resGraphDB});
+                                
+                                    }).catch((err) => {
+                                        console.log("Error: " + err)
+                                    })
+                        */
+                    }).catch((err) => {
+                        console.log("Error: " + err)
+                    })
+
+                }).catch((err) => {
+                    console.log("Error: " + err)
+                })
+
+
+        } 
     });
 
 
