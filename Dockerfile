@@ -7,7 +7,7 @@ FROM node:8
 # where available (npm@5+)
 COPY package*.json ./
 #COPY node_modules ./
-RUN npm ci --only=production
+RUN npm install --production
 
 # Bundle app source
 COPY . .
