@@ -7,7 +7,7 @@ FROM node:8
 # where available (npm@5+)
 
 ADD package.json /tmp/package.json
-RUN cd /tmp && npm install
+RUN cd /tmp && npm  --production
 RUN mkdir -p /usr/src/app && cp -a /tmp/node_modules /usr/src/app/
 
 #COPY package*.json ./
