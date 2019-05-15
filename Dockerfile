@@ -7,6 +7,7 @@ FROM node:8
 # where available (npm@5+)
 COPY package*.json ./
 #COPY node_modules ./
+RUN sudo npm install -g npm
 RUN npm ci --only=production
 
 # Bundle app source
