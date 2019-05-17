@@ -16,6 +16,10 @@ const jsSHA = require('jssha')
 const sshpk = require('sshpk')
 const httpSignature = require('http-signature')
 
+//##################Stream Messages POST###################
+var qs = require('qs');
+var http = require('http');
+
 // App
 const app = express();
 
@@ -27,10 +31,14 @@ app.use(bodyParser.json())
 
 
 app.post('/getOrder', async (req, res) => {
+    postToStream("sending getOrder to msorder...").then({
+    }).catch((err) => {
+        console.log("Error: " + err);
+    });
     adapters.use(config.jsondb.query, req.body).then((resDB) => {
         res.send(resDB);
     }).catch((err) => {
-        console.log("Error: " + err)
+        console.log("Error: " + err);
     })
 });
 
@@ -144,3 +152,50 @@ app.post('/createOrder', async (req, res) => {
 
 app.listen(config.PORT, config.HOST);
 console.log(`Running on http://${config.HOST}:${config.PORT}`);
+//############################## internal Functions #############################
+function postToStream(codestring) {
+  // Build the post string from an object
+  var post_data = qs.stringify({
+     "messages":
+          [
+                {
+                      "key": "MADRID,EVENTTYPE",
+                      "value": "microservice_orchestrator"
+                },
+                {
+                      "key": "MADRID,EVENTTYPE",
+                      "value": "task: " + codestring
+                }
+          ]
+  });
+ 
+  //https://soa.wedoteam.io',
+  // An object of options to indicate where to post to
+  var post_options = {
+      host: 'https://130.61.94.91',
+      port: '443',
+      path: '/wedodevops/publish/madrid/devops',
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(post_data)
+      }
+  };
+ 
+  // Set up the request
+  var post_req = http.request(post_options, function(res) {
+      try{
+          res.setEncoding('utf8');
+          res.on('data', function (chunk) {
+              console.log('Response: ' + chunk);
+          });
+      } 
+      catch (e){
+          console.log("ERROR STREAM:" + e);
+      }
+  });
+ 
+  // post the data
+  post_req.write(post_data);
+  post_req.end();
+}
