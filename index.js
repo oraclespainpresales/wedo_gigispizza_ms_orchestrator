@@ -31,19 +31,11 @@ app.use(bodyParser.json())
 
 
 app.post('/getOrder', async (req, res) => {
-    try{
-        postToStream("sending getOrder to msorder...");
-    }
-    catch (e) {
-        console.log("ERROR POST STREAM: " + e);
-    }
-    finally{
-        adapters.use(config.jsondb.query, req.body).then((resDB) => {
-            res.send(resDB);
-        }).catch((err) => {
-            console.log("Error: " + err);
-        })
-    }
+    adapters.use(config.jsondb.query, req.body).then((resDB) => {
+        res.send(resDB);
+    }).catch((err) => {
+        console.log("Error: " + err);
+    })
 });
 
 app.post('/getPayment', async (req, res) => {
