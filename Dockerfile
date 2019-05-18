@@ -7,7 +7,7 @@ FROM node:8
 # where available (npm@5+)
 COPY package*.json ./
 #COPY node_modules ./
-#RUN npm install
+RUN npm install
 
 # Bundle app source
 COPY . .
