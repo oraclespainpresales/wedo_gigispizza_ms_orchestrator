@@ -30,13 +30,13 @@ app.use(bodyParser.json())
 //##############################  JSON DB #################################
 app.put('/changeStatus', async (req, res) => {
     //Payload to call at "config.jsondb.update
-    let orderid = req.body.orderid
+    let orderid = req.body.orderId
     let status  = req.body.status
-    if(req.body['orderId'] == null || req.body['orderId'] == ""){
+    if(orderid == null || orderid == ""){
         console.log("Error: CHANGE STATUS ERROR - No orderID");
         res.send("{'error':'no orderid sended!'}");  
       }
-      else if(req.body['status'] == null || req.body['status'] == "") {
+      else if(status == null || status == "") {
         console.log("Error: CHANGE STATUS ERROR - No status");
         res.send("{'error':'no status sended!'}");
       }
