@@ -2,17 +2,14 @@
 const http = require('http');
 
 function use(config, data) {
-
     let result = new Promise(function (resolve, reject) {
-
         let body = data
-
         // request option
         let options = config
-
         // request object
         let req = http.request(options, function (res) {
             let result = '';
+
             res.on('data', function (chunk) {
                 result += chunk;
             });
@@ -23,6 +20,7 @@ function use(config, data) {
                 resolve(response)
 
             });
+
             res.on('error', function (err) {
                 console.log("Error calling: " + config.path )
                 reject(err)
@@ -30,7 +28,7 @@ function use(config, data) {
         });
 
         req.on('error', function (err) {
-            console.log("Error calling: " + config.path )
+            console.log("Error calling: " + config.path + " -> " + err);
             reject(err)
         });
 
