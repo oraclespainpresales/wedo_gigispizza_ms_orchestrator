@@ -16,6 +16,15 @@ module.exports = {
                 'Content-Type': 'application/json'
             }
         },
+        update: {
+            host: process.env.JSON_DB_HOST || "10.96.58.204",
+            port: process.env.JSON_DB_PORT || 8080,
+            method: 'PUT',
+            path: '/updateValue',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        },
         query: {
             host: process.env.JSON_DB_HOST || "10.96.58.204",
             port: process.env.JSON_DB_PORT || 8080,

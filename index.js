@@ -28,7 +28,17 @@ app.use(bodyParser.json())
 
 
 //##############################  JSON DB #################################
-
+app.put('/changeStatus', async (req, res) => {
+    //Payload to call at "config.jsondb.update
+    let orderid = req.body.orderid
+    let status  = req.body.status
+    console.log("Info: orderid:" + orderid + " new status: " + status);
+    adapters.use(config.jsondb.update, req.body).then((resJSONDB) => {
+        res.send({ "resJSONDB": resJSONDB});
+    }).catch((err) => {
+        console.log("Error: " + err)
+    })
+});
 
 app.post('/getOrder', async (req, res) => {
     adapters.use(config.jsondb.query, req.body).then((resDB) => {
