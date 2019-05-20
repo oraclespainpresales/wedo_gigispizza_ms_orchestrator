@@ -22,13 +22,13 @@ function use(config, data) {
             });
 
             res.on('error', function (err) {
-                console.log("Error calling: " + config.path )
+                console.log("Error calling: " + config.path);
                 reject(err)
             })
         });
 
         req.on('error', function (err) {
-            console.log("Error calling: " + config.path + " -> " + err);
+            console.log("Error calling: " + config.path);
             reject(err)
         });
 
