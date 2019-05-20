@@ -32,12 +32,22 @@ app.put('/changeStatus', async (req, res) => {
     //Payload to call at "config.jsondb.update
     let orderid = req.body.orderid
     let status  = req.body.status
-    console.log("Info: orderid:" + orderid + " new status: " + status);
-    adapters.use(config.jsondb.update, req.body).then((resJSONDB) => {
-        res.send({ "resJSONDB": resJSONDB});
-    }).catch((err) => {
-        console.log("Error: " + err)
-    })
+    if(req.body['orderId'] == null || req.body['orderId'] == ""){
+        console.log("Error: CHANGE STATUS ERROR - No orderID");
+        res.send("{'error':'no orderid sended!'}");  
+      }
+      else if(req.body['status'] == null || req.body['status'] == "") {
+        console.log("Error: CHANGE STATUS ERROR - No status");
+        res.send("{'error':'no status sended!'}");
+      }
+      else {
+        console.log("Info: orderid:" + orderid + " new status: " + status);
+        adapters.use(config.jsondb.update, req.body).then((resJSONDB) => {
+            res.send({ "resJSONDB": resJSONDB});
+        }).catch((err) => {
+            console.log("Error: " + err)
+        })
+    }
 });
 
 app.post('/getOrder', async (req, res) => {
