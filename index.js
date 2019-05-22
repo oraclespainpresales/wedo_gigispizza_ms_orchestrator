@@ -51,7 +51,7 @@ app.put('/changeStatus', async (req, res) => {
 });
 
 app.post('/getOrder', async (req, res) => {
-    console.log("Info: getorders-> orderid:" + req.body.orderId + " order status: " + req.body.status);
+    console.log("Info: getorders-orderid:" + req.body.orderId + " order status: " + req.body.status);
     adapters.use(config.jsondb.query, req.body).then((resDB) => {
         res.send(resDB);
     }).catch((err) => {
