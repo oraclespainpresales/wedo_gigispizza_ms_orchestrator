@@ -16,10 +16,6 @@ const jsSHA = require('jssha')
 const sshpk = require('sshpk')
 const httpSignature = require('http-signature')
 
-//##################Stream Messages POST###################
-var qs = require('qs');
-var http = require('http');
-
 // App
 const app = express();
 
@@ -28,6 +24,15 @@ app.use(bodyParser.json())
 
 
 //##############################  JSON DB #################################
+app.get('/getAllOrders', async (req, res) => {
+    adapters.use(config.jsondb.queryAll, req.body).then((resDB) => {
+        res.send(resDB);
+    }).catch((err) => {
+        console.error("Error: getAllOrders-> ", err);
+        res.send({"error":err.toString()});
+    })
+});
+
 app.put('/changeStatus', async (req, res) => {
     //Payload to call at "config.jsondb.update
     let orderid = req.body.orderId
@@ -45,17 +50,34 @@ app.put('/changeStatus', async (req, res) => {
         adapters.use(config.jsondb.update, req.body).then((resJSONDB) => {
             res.send({ "resJSONDB": resJSONDB});
         }).catch((err) => {
-            console.log("Error: " + err)
+            console.error("Error: changeStatus-> ", err);
+            res.send({"error":err.toString()});
         })
     }
 });
 
 app.post('/getOrder', async (req, res) => {
-    console.log("Info: getorders-> orderid:" + req.body.orderId + " order status: " + req.body.status);
-    adapters.use(config.jsondb.query, req.body).then((resDB) => {
+    let configOrderCall = config.jsondb.queryAll;
+    console.log("Info: Param Received -> ", JSON.stringify(req.body));
+    if(req.body.orderId == null || req.body.orderId == ""){
+      console.log("Info: where request-> ", JSON.stringify(req.body.where));
+      if(req.body.where == null || req.body.where == ""){
+        configOrderCall = config.jsondb.queryAll;
+      }    
+      else{
+        configOrderCall = config.jsondb.queryWhere            
+      }        
+    }
+    else{
+        //to keep compatibility with last version.
+        configOrderCall = config.jsondb.queryOrderId
+    }
+              
+    adapters.use(configOrderCall, req.body).then((resDB) => {
         res.send(resDB);
     }).catch((err) => {
-        console.log("Error: " + err);
+        console.error("Error: getOrder-> ", err);
+        res.send({"error":err.toString()});
     })
 });
 
@@ -63,9 +85,11 @@ app.post('/getPayment', async (req, res) => {
     adapters.use(config.sqldb.query, req.body).then((resDB) => {
         res.send(resDB);
     }).catch((err) => {
-        console.log("Error: " + err)
+        console.error("Error: getPayment-> ", err);
+        res.send({"error":err.toString()});
     })
 });
+
 app.post('/createOrder', async (req, res) => {
 
     //Payload to call at "config.jsondb.insert"
@@ -119,11 +143,13 @@ app.post('/createOrder', async (req, res) => {
                                     })
                         */
                     }).catch((err) => {
-                        console.log("Error: " + err)
+                        console.error("Error: createOrder-paymentMethod-> ", err);
+                        res.send({"error":err.toString()});
                     })
 
                 }).catch((err) => {
-                    console.log("Error: " + err)
+                    console.error("Error: createOrder-paymentMethod-> ", err);
+                        res.send({"error":err.toString()});
                 })
 
                 console.log("Total to pay after discount applied :" + payment.totalPayed + "$");
@@ -152,11 +178,13 @@ app.post('/createOrder', async (req, res) => {
                                     })
                         */
                     }).catch((err) => {
-                        console.log("Error: " + err)
+                        console.error("Error: createOrder-paymentMethod AMEX-> ", err);
+                        res.send({"error":err.toString()});
                     })
 
                 }).catch((err) => {
-                    console.log("Error: " + err)
+                    console.error("Error: createOrder-paymentMethod AMEX-> ", err);
+                    res.send({"error":err.toString()});
                 })
 
 
@@ -169,50 +197,3 @@ app.post('/createOrder', async (req, res) => {
 
 app.listen(config.PORT, config.HOST);
 console.log(`Running on http://${config.HOST}:${config.PORT}`);
-//############################## internal Functions #############################
-function postToStream(codestring) {
-  // Build the post string from an object
-  var post_data = qs.stringify({
-     "messages":
-          [
-                {
-                      "key": "MADRID,EVENTTYPE",
-                      "value": "microservice_orchestrator"
-                },
-                {
-                      "key": "MADRID,EVENTTYPE",
-                      "value": "task: " + codestring
-                }
-          ]
-  });
- 
-  //https://soa.wedoteam.io',
-  // An object of options to indicate where to post to
-  var post_options = {
-      host: 'streams',
-      port: '443',
-      path: '/wedodevops/publish/madrid/devops',
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-          'Content-Length': Buffer.byteLength(post_data)
-      }
-  };
- 
-  // Set up the request
-  var post_req = http.request(post_options, function(res) {
-      try{
-          res.setEncoding('utf8');
-          res.on('data', function (chunk) {
-              console.log('Response: ' + chunk);
-          });
-      } 
-      catch (e){
-          console.log("ERROR STREAM:" + e);
-      }
-  });
- 
-  // post the data
-  post_req.write(post_data);
-  post_req.end();
-}

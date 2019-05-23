@@ -4,7 +4,7 @@ module.exports = {
     HOST: process.env.ORCH_HOST || 'localhost',
 
     //############### JSON DB CONFIG ########################
-    jsondb: {
+    jsondbPRO: {
         insert: {
             //host: process.env.JSON_DB_HOST || "130.61.57.83",
             host: process.env.JSON_DB_HOST || "10.96.58.204",
@@ -25,11 +25,77 @@ module.exports = {
                 'Content-Type': 'application/json'
             }
         },
-        query: {
+        queryOrderId: {
+            host: process.env.JSON_DB_HOST || "10.96.58.204",
+            port: process.env.JSON_DB_PORT || 8080,
+            method: 'POST',
+            path: '/queryTableOrderId',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        },
+        queryWhere: {
             host: process.env.JSON_DB_HOST || "10.96.58.204",
             port: process.env.JSON_DB_PORT || 8080,
             method: 'POST',
             path: '/queryTable',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        },
+        queryAll: {
+            host: process.env.JSON_DB_HOST || "10.96.58.204",
+            port: process.env.JSON_DB_PORT || 8080,
+            method: 'GET',
+            path: '/getAll',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    },
+
+    jsondb: {
+        insert: {
+            host: process.env.JSON_DB_HOST || "localhost",
+            port: process.env.JSON_DB_PORT || 8080,
+            method: 'POST',
+            path: '/insertValue',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        },
+        update: {
+            host: process.env.JSON_DB_HOST || "localhost",
+            port: process.env.JSON_DB_PORT || 8080,
+            method: 'PUT',
+            path: '/updateValue',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        },
+        queryOrderId: {
+            host: process.env.JSON_DB_HOST || "localhost",
+            port: process.env.JSON_DB_PORT || 8080,
+            method: 'POST',
+            path: '/queryTableOrderId',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        },
+        queryWhere: {
+            host: process.env.JSON_DB_HOST || "localhost",
+            port: process.env.JSON_DB_PORT || 8080,
+            method: 'POST',
+            path: '/queryTable',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        },
+        queryAll: {
+            host: process.env.JSON_DB_HOST || "localhost",
+            port: process.env.JSON_DB_PORT || 8080,
+            method: 'GET',
+            path: '/getAll',
             headers: {
                 'Content-Type': 'application/json'
             }

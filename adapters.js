@@ -33,8 +33,11 @@ function use(config, data) {
         });
 
         //send request
-        console.log("INFO (before stringify): " + JSON.stringify(body));
-        req.write(JSON.stringify(body));
+        console.log("INFO Method: ", options.method);
+        if (options.method != "GET"){
+            console.log("INFO body: ", JSON.stringify(body));
+            req.write(JSON.stringify(body));
+        }
         req.end();
     });
 
