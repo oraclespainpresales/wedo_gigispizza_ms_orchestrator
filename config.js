@@ -7,7 +7,7 @@ module.exports = {
     jsondb: {
         insert: {
             //host: process.env.JSON_DB_HOST || "130.61.57.83",
-            host: process.env.JSON_DB_HOST || "10.96.58.204",
+            host: process.env.JSON_DB_HOST || "10.96.23.222",
             //port: process.env.JSON_DB_PORT || 31506,
             port: process.env.JSON_DB_PORT || 8080,
             method: 'POST',
@@ -17,7 +17,7 @@ module.exports = {
             }
         },
         update: {
-            host: process.env.JSON_DB_HOST || "10.96.58.204",
+            host: process.env.JSON_DB_HOST || "10.96.23.222",
             port: process.env.JSON_DB_PORT || 8080,
             method: 'PUT',
             path: '/updateValue',
@@ -26,7 +26,7 @@ module.exports = {
             }
         },
         queryOrderId: {
-            host: process.env.JSON_DB_HOST || "10.96.58.204",
+            host: process.env.JSON_DB_HOST || "10.96.23.222",
             port: process.env.JSON_DB_PORT || 8080,
             method: 'POST',
             path: '/queryTableOrderId',
@@ -35,7 +35,7 @@ module.exports = {
             }
         },
         queryWhere: {
-            host: process.env.JSON_DB_HOST || "10.96.58.204",
+            host: process.env.JSON_DB_HOST || "10.96.23.222",
             port: process.env.JSON_DB_PORT || 8080,
             method: 'POST',
             path: '/queryTable',
@@ -44,7 +44,7 @@ module.exports = {
             }
         },
         queryAll: {
-            host: process.env.JSON_DB_HOST || "10.96.58.204",
+            host: process.env.JSON_DB_HOST || "10.96.23.222",
             port: process.env.JSON_DB_PORT || 8080,
             method: 'GET',
             path: '/getAll',
@@ -109,7 +109,7 @@ module.exports = {
         insert: {
             //host: process.env.SQL_DB_HOST || "130.61.83.91",
             //port: process.env.SQL_DB_PORT || 31323,
-            host: process.env.SQL_DB_HOST || "10.96.250.127",
+            host: process.env.SQL_DB_HOST || "10.96.79.232",
             port: process.env.SQL_DB_PORT || 9002,
             method: 'POST',
             path: '/helidon/payment',
@@ -118,7 +118,7 @@ module.exports = {
             }
         },
         query: {
-            host: process.env.SQL_DB_HOST || "10.96.250.127",
+            host: process.env.SQL_DB_HOST || "10.96.79.232",
             port: process.env.SQL_DB_PORT || 9002,
             method: 'POST',
             path: '/helidon/selectpayment',
