@@ -4,7 +4,7 @@ module.exports = {
     HOST: process.env.ORCH_HOST || 'localhost',
 
     //############### JSON DB CONFIG ########################
-    jsondbPRO: {
+    jsondb: {
         insert: {
             //host: process.env.JSON_DB_HOST || "130.61.57.83",
             host: process.env.JSON_DB_HOST || "10.96.58.204",
@@ -54,7 +54,7 @@ module.exports = {
         }
     },
 
-    jsondb: {
+    jsondbLocal: {
         insert: {
             host: process.env.JSON_DB_HOST || "localhost",
             port: process.env.JSON_DB_PORT || 8080,
