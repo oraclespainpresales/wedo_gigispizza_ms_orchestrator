@@ -20,11 +20,11 @@ spec:
         - name: ORCH_HOST
           value: "0.0.0.0"
         - name: JSON_DB_HOST
-          value: "10.96.58.204"
+          value: "10.96.23.222"
         - name: JSON_DB_PORT
           value: "8080"
         - name: SQL_DB_HOST
-          value: "10.96.250.127"
+          value: "10.96.79.232"
         - name: SQL_DB_PORT
           value: "9002"
         imagePullPolicy: Always
