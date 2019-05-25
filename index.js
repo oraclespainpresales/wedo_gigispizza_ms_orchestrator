@@ -194,7 +194,7 @@ app.post('/createOrder', async (req, res) => {
 
 });
 //##############################  End - JSON DB #################################
-console.log("MICROSERVICE_ORDER_SERVICE  -> %1$:%2$", config.jsondb.insert.host, config.jsondb.insert.port)
-console.log("MICROSERVICE_PAYMENT_SERVICE-> %1$:%2$", config.sqldb.insert.host , config.sqldb.insert.port)
+console.log("MICROSERVICE_ORDER_SERVICE  -> %s:%s", config.jsondb.insert.host, config.jsondb.insert.port)
+console.log("MICROSERVICE_PAYMENT_SERVICE-> %s:%s", config.sqldb.insert.host , config.sqldb.insert.port)
 app.listen(config.PORT, config.HOST);
 console.log(`Running on http://${config.HOST}:${config.PORT}`);

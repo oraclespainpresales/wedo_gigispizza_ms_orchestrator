@@ -4,7 +4,7 @@ module.exports = {
     HOST: process.env.ORCH_HOST || 'localhost',
 
     //############### JSON DB CONFIG ########################
-    jsondb: {
+    jsondbcl: {
         insert: {
             //host: process.env.JSON_DB_HOST || "130.61.57.83",
             host: process.env.JSON_DB_HOST || "10.96.23.222",
@@ -54,7 +54,7 @@ module.exports = {
         }
     },
 
-    jsondbLocal: {
+    jsondb: {
         insert: {
             host: process.env.JSON_DB_HOST || "localhost",
             port: process.env.JSON_DB_PORT || 8080,
@@ -105,7 +105,7 @@ module.exports = {
     //###############  End - JSON DB CONFIG ########################
 
     //TODO Other DB configs
-    sqldb: {
+    sqldbCL: {
         insert: {
             //host: process.env.SQL_DB_HOST || "130.61.83.91",
             //port: process.env.SQL_DB_PORT || 31323,
@@ -127,6 +127,28 @@ module.exports = {
             }
         }
     },
+
+    sqldb: {
+        insert: {
+            host: process.env.SQL_DB_HOST || "localhost",
+            port: process.env.SQL_DB_PORT || 9002,
+            method: 'POST',
+            path: '/helidon/payment',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        },
+        query: {
+            host: process.env.SQL_DB_HOST || "localhost",
+            port: process.env.SQL_DB_PORT || 9002,
+            method: 'POST',
+            path: '/helidon/selectpayment',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    },
+
     //TODO Other DB configs
     graphdb: {
         insert: {
