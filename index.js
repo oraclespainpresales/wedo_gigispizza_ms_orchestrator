@@ -91,76 +91,79 @@ app.post('/getPayment', async (req, res) => {
 });
 
 app.post('/createOrder', async (req, res) => {
-    //Payload to call at "config.jsondb.insert"
-    let order   = req.body.order
-    let payment = req.body.payment
+    try {
+        //Payload to call at "config.jsondb.insert"
+        let order   = req.body.order
+        let payment = req.body.payment
 
-    console.log("ORDER-BODY",order);
-    console.log("PAYMENT-BODY",payment);
+        console.log("ORDER-BODY",order);
+        console.log("PAYMENT-BODY",payment);
 
-    let paymentMethod = req.body.payment.paymentMethod;
-    let totalPaid     = req.body.payment.totalPaid;
+        let paymentMethod = req.body.payment.paymentMethod;
+        let totalPaid     = req.body.payment.totalPaid;
 
-    //var fnInvokeEndpoint = "https://kfd4yc7wzsq.us-phoenix-1.functions.oci.oraclecloud.com/20181201/functions/ocid1.fnfunc.oc1.phx.aaaaaaaaabbnp3n4nvk4hxmldnxhkj2ptt62hhucrsqocaryfu6lut5ytyma/actions/invoke";
-    var fnInvokeEndpoint = "https://ylcnth7j6ya.us-phoenix-1.functions.oci.oraclecloud.com/20181201/functions/ocid1.fnfunc.oc1.phx.aaaaaaaaad4c3a23nxkjtnwfoaushbenpqaj3emrpgt5r7sqs25tivsktn6q/actions/invoke";
-    var context = yaml.load('fn-node-invokebyendpoint/config.yaml') // load OCI context values
-    var keyPath = context.privateKeyPath
-    if (keyPath.indexOf('~/') === 0) {
-        keyPath = keyPath.replace('~', os.homedir())
-    }
-
-    // read the private key
-    fs.readFile(keyPath, 'ascii', (err, data) => {
-        if (err) {
-            console.error("Can't read keyfile: " + keyPath)
-            process.exit(-1)
+        //var fnInvokeEndpoint = "https://kfd4yc7wzsq.us-phoenix-1.functions.oci.oraclecloud.com/20181201/functions/ocid1.fnfunc.oc1.phx.aaaaaaaaabbnp3n4nvk4hxmldnxhkj2ptt62hhucrsqocaryfu6lut5ytyma/actions/invoke";
+        var fnInvokeEndpoint = "https://ylcnth7j6ya.us-phoenix-1.functions.oci.oraclecloud.com/20181201/functions/ocid1.fnfunc.oc1.phx.aaaaaaaaad4c3a23nxkjtnwfoaushbenpqaj3emrpgt5r7sqs25tivsktn6q/actions/invoke";
+        var context = yaml.load('fn-node-invokebyendpoint/config.yaml') // load OCI context values
+        var keyPath = context.privateKeyPath
+        if (keyPath.indexOf('~/') === 0) {
+            keyPath = keyPath.replace('~', os.homedir())
         }
-        context.privateKey = data
 
-        if (paymentMethod == "AMEX") {
-            console.log("Total to pay before discount applied (1***):" + totalPaid + "$");
-            functions.invokeFunction(context, fnInvokeEndpoint, totalPaid, function (response) {
-                console.log("functionResponse :" + response)
-                // Change the valueof payment.totalPaid
-                payment.totalPaid = response;
-                console.log("Total to pay after discount applied (1***):" + payment.totalPaid + "$");
-            })
-        }
-        else
-            console.log("Not eligible to discount");
+        // read the private key
+        fs.readFile(keyPath, 'ascii', (err, data) => {
+            if (err) {
+                console.error("Can't read keyfile: " + keyPath)
+                process.exit(-1)
+            }
+            context.privateKey = data
 
-        //TODO OtherDBs payload
-        //let customerAdress = req.body.customerAdress
-        //Do not forget to put the metadata on nodeJS
-        adapters.use(config.jsondb.insert, order).then((resJSONDB) => {
-            //order created OK, get the orderId field and insert it on payment.orderId
-            console.log("Order ID created: ",resJSONDB.orderId)
-            payment.orderId = resJSONDB.orderId;
-            adapters.use(config.sqldb.insert, payment).then((resSQLDB) => {
-                //TO remove once you added the call to GraphDB
-                res.send({ "resJSONDB": resJSONDB, "resSQLDB": resSQLDB });                        
-                /*
-                    adapters.use(config.graphdb.insert, payment).then((resGraphDB) => {
-        
-                        res.send({"resJSONDB": resJSONDB, "resSQLDB": resSQLDB, "resGraphDB" : resGraphDB});
-                
-                    }).catch((err) => {
-                        console.log("Error: " + err)
-                    })
-                */
+            if (paymentMethod == "AMEX") {
+                console.log("Total to pay before discount applied (1***):" + totalPaid + "$");
+                functions.invokeFunction(context, fnInvokeEndpoint, totalPaid, function (response) {
+                    console.log("functionResponse :" + response)
+                    // Change the valueof payment.totalPaid
+                    payment.totalPaid = response;
+                    console.log("Total to pay after discount applied (1***):" + payment.totalPaid + "$");
+                })
+            }
+            else
+                console.log("Not eligible to discount");
+
+            //TODO OtherDBs payload
+            //let customerAdress = req.body.customerAdress
+            //Do not forget to put the metadata on nodeJS
+            adapters.use(config.jsondb.insert, order).then((resJSONDB) => {
+                //order created OK, get the orderId field and insert it on payment.orderId
+                console.log("Order ID created: ",resJSONDB.orderId)
+                payment.orderId = resJSONDB.orderId;
+                adapters.use(config.sqldb.insert, payment).then((resSQLDB) => {
+                    //TO remove once you added the call to GraphDB
+                    res.send({ "resJSONDB": resJSONDB, "resSQLDB": resSQLDB });                        
+                    /*
+                        adapters.use(config.graphdb.insert, payment).then((resGraphDB) => {
+            
+                            res.send({"resJSONDB": resJSONDB, "resSQLDB": resSQLDB, "resGraphDB" : resGraphDB});
+                    
+                        }).catch((err) => {
+                            console.log("Error: " + err)
+                        })
+                    */
+                }).catch((err) => {
+                    console.error("Error: createOrder-payment> ", err);
+                        res.send({"error":err.toString()});
+                })
+
             }).catch((err) => {
-                console.error("Error: createOrder-payment> ", err);
+                console.error("Error: createOrder-order-> ", err);
                     res.send({"error":err.toString()});
             })
-
-        }).catch((err) => {
-            console.error("Error: createOrder-order-> ", err);
-                res.send({"error":err.toString()});
-        })
-    });
-}).catch((err)=>{
-    console.error("Error: createOrder-order-> ", err);
-        res.send({"error":err.toString()});
+        });
+    }
+    catch (err){
+        console.error("Error: createOrder-> ", err);
+            res.send({"error":err.toString()});
+    }
 });
 //##############################  End - JSON DB #################################
 console.log("MICROSERVICE_ORDER_SERVICE  -> %s:%s", config.jsondb.insert.host, config.jsondb.insert.port)
