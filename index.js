@@ -121,8 +121,8 @@ app.post('/createOrder', async (req, res) => {
             console.log("Total to pay before discount applied (1***):" + totalPaid + "$");
             functions.invokeFunction(context, fnInvokeEndpoint, totalPaid, function (response) {
                 console.log("functionResponse :" + response)
-                // Change the valueof payment.totalPayed
-                payment.totalPayed = response;
+                // Change the valueof payment.totalPaid
+                payment.totalPaid = response;
                 console.log("Total to pay after discount applied (1***):" + payment.totalPaid + "$");
             })
         }
