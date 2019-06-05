@@ -157,9 +157,6 @@ app.post('/createOrder', async (req, res) => {
             console.error("Error: createOrder-order-> ", err);
                 res.send({"error":err.toString()});
         })
-    }).catch((err) => {
-        console.error("Error: createOrder-fs-> ", err);
-            res.send({"error":err.toString()});
     });
 });
 //##############################  End - JSON DB #################################
