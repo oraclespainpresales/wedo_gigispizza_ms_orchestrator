@@ -158,6 +158,9 @@ app.post('/createOrder', async (req, res) => {
                 res.send({"error":err.toString()});
         })
     });
+}).catch((err)=>{
+    console.error("Error: createOrder-order-> ", err);
+        res.send({"error":err.toString()});
 });
 //##############################  End - JSON DB #################################
 console.log("MICROSERVICE_ORDER_SERVICE  -> %s:%s", config.jsondb.insert.host, config.jsondb.insert.port)
