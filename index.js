@@ -125,39 +125,13 @@ app.post('/createOrder', async (req, res) => {
                     // Change the valueof payment.totalPaid
                     payment.totalPaid = response;
                     console.log("Total to pay after discount applied (1***):" + payment.totalPaid + "$");
-                })
+                    insertData(order,payment,res);
+                })                
             }
-            else
+            else{
                 console.log("Not eligible to discount");
-
-            //TODO OtherDBs payload
-            //let customerAdress = req.body.customerAdress
-            //Do not forget to put the metadata on nodeJS
-            adapters.use(config.jsondb.insert, order).then((resJSONDB) => {
-                //order created OK, get the orderId field and insert it on payment.orderId
-                console.log("Order ID created: ",resJSONDB.orderId)
-                payment.orderId = resJSONDB.orderId;
-                adapters.use(config.sqldb.insert, payment).then((resSQLDB) => {
-                    //TO remove once you added the call to GraphDB
-                    res.send({ "resJSONDB": resJSONDB, "resSQLDB": resSQLDB });                        
-                    /*
-                        adapters.use(config.graphdb.insert, payment).then((resGraphDB) => {
-            
-                            res.send({"resJSONDB": resJSONDB, "resSQLDB": resSQLDB, "resGraphDB" : resGraphDB});
-                    
-                        }).catch((err) => {
-                            console.log("Error: " + err)
-                        })
-                    */
-                }).catch((err) => {
-                    console.error("Error: createOrder-payment> ", err);
-                        res.send({"error":err.toString()});
-                })
-
-            }).catch((err) => {
-                console.error("Error: createOrder-order-> ", err);
-                    res.send({"error":err.toString()});
-            })
+                insertData(order,payment,res);
+            }                        
         });
     }
     catch (err){
@@ -165,6 +139,39 @@ app.post('/createOrder', async (req, res) => {
             res.send({"error":err.toString()});
     }
 });
+
+//############################## Helper Functions ###############################
+function insertData(order,payment,res){
+    //TODO OtherDBs payload
+    //let customerAdress = req.body.customerAdress
+    //Do not forget to put the metadata on nodeJS
+    adapters.use(config.jsondb.insert, order).then((resJSONDB) => {
+        //order created OK, get the orderId field and insert it on payment.orderId
+        console.log("Order ID created: ",resJSONDB.orderId)
+        payment.orderId = resJSONDB.orderId;
+        adapters.use(config.sqldb.insert, payment).then((resSQLDB) => {
+            //TO remove once you added the call to GraphDB
+            res.send({ "resJSONDB": resJSONDB, "resSQLDB": resSQLDB });                        
+            /*
+                adapters.use(config.graphdb.insert, payment).then((resGraphDB) => {
+    
+                    res.send({"resJSONDB": resJSONDB, "resSQLDB": resSQLDB, "resGraphDB" : resGraphDB});
+            
+                }).catch((err) => {
+                    console.log("Error: " + err)
+                })
+            */
+        }).catch((err) => {
+            console.error("Error: createOrder-payment> ", err);
+                res.send({"error":err.toString()});
+        })
+
+    }).catch((err) => {
+        console.error("Error: createOrder-order-> ", err);
+            res.send({"error":err.toString()});
+    })
+}   
+
 //##############################  End - JSON DB #################################
 console.log("MICROSERVICE_ORDER_SERVICE  -> %s:%s", config.jsondb.insert.host, config.jsondb.insert.port)
 console.log("MICROSERVICE_PAYMENT_SERVICE-> %s:%s", config.sqldb.insert.host , config.sqldb.insert.port)
