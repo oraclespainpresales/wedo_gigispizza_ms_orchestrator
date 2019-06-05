@@ -99,7 +99,7 @@ app.post('/createOrder', async (req, res) => {
     console.log("PAYMENT-BODY",payment);
 
     let paymentMethod = req.body.payment.paymentMethod;
-    let totalPayed    = req.body.payment.totalPayed;
+    let totalPaid     = req.body.payment.totalPaid;
 
     //var fnInvokeEndpoint = "https://kfd4yc7wzsq.us-phoenix-1.functions.oci.oraclecloud.com/20181201/functions/ocid1.fnfunc.oc1.phx.aaaaaaaaabbnp3n4nvk4hxmldnxhkj2ptt62hhucrsqocaryfu6lut5ytyma/actions/invoke";
     var fnInvokeEndpoint = "https://ylcnth7j6ya.us-phoenix-1.functions.oci.oraclecloud.com/20181201/functions/ocid1.fnfunc.oc1.phx.aaaaaaaaad4c3a23nxkjtnwfoaushbenpqaj3emrpgt5r7sqs25tivsktn6q/actions/invoke";
@@ -118,11 +118,12 @@ app.post('/createOrder', async (req, res) => {
         context.privateKey = data
 
         if (paymentMethod == "AMEX") {
-            functions.invokeFunction(context, fnInvokeEndpoint, totalPayed, function (response) {
+            console.log("Total to pay before discount applied (1***):" + totalPaid + "$");
+            functions.invokeFunction(context, fnInvokeEndpoint, totalPaid, function (response) {
                 console.log("functionResponse :" + response)
                 // Change the valueof payment.totalPayed
                 payment.totalPayed = response;
-                console.log("Total to pay after discount applied (1***):" + payment.totalPayed + "$");
+                console.log("Total to pay after discount applied (1***):" + payment.totalPaid + "$");
             })
         }
         else
@@ -132,6 +133,9 @@ app.post('/createOrder', async (req, res) => {
         //let customerAdress = req.body.customerAdress
         //Do not forget to put the metadata on nodeJS
         adapters.use(config.jsondb.insert, order).then((resJSONDB) => {
+            //order created OK, get the orderId field and insert it on payment.orderId
+            console.log("Order ID created: ",resJSONDB.orderId)
+            payment.orderId = resJSONDB.orderId;
             adapters.use(config.sqldb.insert, payment).then((resSQLDB) => {
                 //TO remove once you added the call to GraphDB
                 res.send({ "resJSONDB": resJSONDB, "resSQLDB": resSQLDB });                        
