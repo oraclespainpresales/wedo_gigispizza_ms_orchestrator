@@ -20,8 +20,7 @@ spec:
     name: http
   - port: 443
     targetPort: 8080
-    name: https 
-    
+    name: https  
 ---
 kind: Deployment
 apiVersion: extensions/v1beta1
