@@ -7,6 +7,7 @@ metadata:
     app: microservice-orchestrator
   annotations:
     external-dns.alpha.kubernetes.io/hostname: madrid.gigispizza.wedoteam.io
+    service.beta.kubernetes.io/oci-load-balancer-shape: "400Mbps"
     service.beta.kubernetes.io/oci-load-balancer-ssl-ports: "443"
     service.beta.kubernetes.io/oci-load-balancer-tls-secret: wedoteam-cert
 spec:
