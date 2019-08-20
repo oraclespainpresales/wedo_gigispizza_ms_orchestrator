@@ -102,37 +102,35 @@ app.post('/createOrder', async (req, res) => {
         let paymentMethod = req.body.payment.paymentMethod;
         let totalPaid     = req.body.payment.totalPaid;
 
-        //var fnInvokeEndpoint = "https://kfd4yc7wzsq.us-phoenix-1.functions.oci.oraclecloud.com/20181201/functions/ocid1.fnfunc.oc1.phx.aaaaaaaaabbnp3n4nvk4hxmldnxhkj2ptt62hhucrsqocaryfu6lut5ytyma/actions/invoke";
-        var fnInvokeEndpoint = "https://ylcnth7j6ya.us-phoenix-1.functions.oci.oraclecloud.com/20181201/functions/ocid1.fnfunc.oc1.phx.aaaaaaaaad4c3a23nxkjtnwfoaushbenpqaj3emrpgt5r7sqs25tivsktn6q/actions/invoke";
-        var context = yaml.load('fn-node-invokebyendpoint/config.yaml') // load OCI context values
-        var keyPath = context.privateKeyPath
-        if (keyPath.indexOf('~/') === 0) {
-            keyPath = keyPath.replace('~', os.homedir())
-        }
-
-        // read the private key
-        fs.readFile(keyPath, 'ascii', (err, data) => {
-            if (err) {
-                console.error("Can't read keyfile: " + keyPath)
-                process.exit(-1)
+        //Applying a discount calculated with a serverless function
+        if (paymentMethod == "AMEX") {  
+            console.log("Eligible to discount (AMEX)");      
+            //var fnInvokeEndpoint = "https://kfd4yc7wzsq.us-phoenix-1.functions.oci.oraclecloud.com/20181201/functions/ocid1.fnfunc.oc1.phx.aaaaaaaaabbnp3n4nvk4hxmldnxhkj2ptt62hhucrsqocaryfu6lut5ytyma/actions/invoke";
+            var fnInvokeEndpoint = "https://ylcnth7j6ya.us-phoenix-1.functions.oci.oraclecloud.com/20181201/functions/ocid1.fnfunc.oc1.phx.aaaaaaaaad4c3a23nxkjtnwfoaushbenpqaj3emrpgt5r7sqs25tivsktn6q/actions/invoke";
+            var context = yaml.load('fn-node-invokebyendpoint/config.yaml') // load OCI context values
+            var keyPath = context.privateKeyPath
+            if (keyPath.indexOf('~/') === 0) {
+                keyPath = keyPath.replace('~', os.homedir())
             }
-            context.privateKey = data
 
-            if (paymentMethod == "AMEX") {
+            // read the private key
+            fs.readFile(keyPath, 'ascii', (err, data) => {
+                if (err) {
+                    console.error("Can't read keyfile: " + keyPath)
+                    process.exit(-1)
+                }
+                context.privateKey = data
+                
                 console.log("Total to pay before discount applied (1***):" + totalPaid + "$");
                 functions.invokeFunction(context, fnInvokeEndpoint, totalPaid, function (response) {
                     console.log("functionResponse :" + response)
                     // Change the valueof payment.totalPaid
                     payment.totalPaid = response;
                     console.log("Total to pay after discount applied (1***):" + payment.totalPaid + "$");
-                    insertData(order,payment,res);
                 })                
-            }
-            else{
-                console.log("Not eligible to discount");
-                insertData(order,payment,res);
-            }                        
-        });
+            });
+        }
+        insertData(order,payment,res);        
     }
     catch (err){
         console.error("Error: createOrder-> ", err);
