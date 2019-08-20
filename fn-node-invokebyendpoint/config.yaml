@@ -1,6 +1,6 @@
-tenancyId: ocid1.tenancy.oc1..aaaaaaaa4cas4diymcy4marah3gnk6zijsmtkmzcbsepmgdnmk252afel66a
-compartmentId: ocid1.compartment.oc1..aaaaaaaa4x37s4d7dvodu2jkjdpzkyhlt3ftfbeehfffl6du6vrlxiyowxva
-userId: ocid1.user.oc1..aaaaaaaayhg56bn43hu7n3zekx2vvzylmk6ts53i6qhkodydzs5dfmciwcfa
-keyFingerprint: 08:bf:39:9e:6c:2e:ef:57:6e:30:36:af:54:30:59:88 
+tenancyId: ocid1.tenancy.oc1..aaaaaaaaccrdrt4k37tjev6fhheoqvezozo6unvffeykgkkby3nqzkjzf2yq
+compartmentId: ocid1.compartment.oc1..aaaaaaaatz2chvjiz4d3xdrtzmtxspkul4augrxbv6lb6br3e2xv7aerh3ia
+userId: ocid1.user.oc1..aaaaaaaadn622kpdwingnbjlg4wrfyzvioxr7eey3l5uq73xz6om5hwo4jaa
+keyFingerprint: f0:db:79:53:8b:1f:f7:62:40:37:b5:a7:45:5c:03:ff 
 privateKeyPath: ./oci_api_key.pem
 passphrase:
