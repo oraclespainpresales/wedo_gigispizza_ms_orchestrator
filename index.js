@@ -128,10 +128,14 @@ app.post('/createOrder', async (req, res) => {
                     // Change the valueof payment.totalPaid
                     payment.totalPaid = response;
                     console.log("Total to pay after discount applied (1***):" + payment.totalPaid + "$");
+                    insertData(order,payment,res); 
                 })                
             });
         }
-        insertData(order,payment,res);        
+        else{
+            console.log("Not Eligible to discount (" + paymentMethod + ")");
+            insertData(order,payment,res);        
+        }
     }
     catch (err){
         console.error("Error: createOrder-> ", err);
