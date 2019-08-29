@@ -107,7 +107,7 @@ app.post('/createOrder', async (req, res) => {
             console.log("Eligible to discount (AMEX)");      
             //var fnInvokeEndpoint = "https://kfd4yc7wzsq.us-phoenix-1.functions.oci.oraclecloud.com/20181201/functions/ocid1.fnfunc.oc1.phx.aaaaaaaaabbnp3n4nvk4hxmldnxhkj2ptt62hhucrsqocaryfu6lut5ytyma/actions/invoke";
             //var fnInvokeEndpoint = "https://ylcnth7j6ya.us-phoenix-1.functions.oci.oraclecloud.com/20181201/functions/ocid1.fnfunc.oc1.phx.aaaaaaaaad4c3a23nxkjtnwfoaushbenpqaj3emrpgt5r7sqs25tivsktn6q/actions/invoke";
-            var fnInvokeEndpoint = "https://gw7unyffbla.eu-frankfurt-1.functions.oci.oraclecloud.com/20181201/functions/ocid1.fnfunc.oc1.eu-frankfurt-1.aaaaaaaaabjc65relmbh7tlodczebsxm2bof42ammxe6avbot6y4uin3xyra/actions/invoke";
+            var fnInvokeEndpoint = "https://gw7unyffbla.eu-frankfurt-1.functions.oci.oraclecloud.com/20181201/functions/ocid1.fnfunc.oc1.eu-frankfurt-1.aaaaaaaaabthjsbtxagfg7hg4wzfmgqpypjog23e342c5bdnpujkznlfoovq/actions/invoke";
             var context = yaml.load('fn-node-invokebyendpoint/config.yaml') // load OCI context values changed
             var keyPath = context.privateKeyPath
             if (keyPath.indexOf('~/') === 0) {
