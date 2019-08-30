@@ -95,7 +95,8 @@ app.post('/createOrder', async (req, res) => {
         //Payload to call at "config.jsondb.insert"
         let order   = req.body.order
         let payment = req.body.payment
-
+                
+        console.log(req.body);
         console.log("ORDER-BODY",order);
         console.log("PAYMENT-BODY",payment);
 
