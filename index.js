@@ -57,28 +57,34 @@ app.put('/changeStatus', async (req, res) => {
 });
 
 app.post('/getOrder', async (req, res) => {
-    let configOrderCall = config.jsondb.queryAll;
-    console.log("Info: Param Received -> ", JSON.stringify(req.body));
-    if(req.body.orderId == null || req.body.orderId == ""){
-      console.log("Info: where request-> ", JSON.stringify(req.body.where));
-      if(req.body.where == null || req.body.where == ""){
-        configOrderCall = config.jsondb.queryAll;
-      }    
-      else{
-        configOrderCall = config.jsondb.queryWhere            
-      }        
+    try{
+        let configOrderCall = config.jsondb.queryAll;
+        console.log("Info: Param Received -> ", JSON.stringify(req.body));
+        if(req.body.orderId == null || req.body.orderId == ""){
+          console.log("Info: where request-> ", JSON.stringify(req.body.where));
+          if(req.body.where == null || req.body.where == ""){
+            configOrderCall = config.jsondb.queryAll;
+          }    
+          else{
+            configOrderCall = config.jsondb.queryWhere            
+          }        
+        }
+        else{
+            //to keep compatibility with last version.
+            configOrderCall = config.jsondb.queryOrderId
+        }
+
+        adapters.use(configOrderCall, req.body).then((resDB) => {
+            res.send(resDB);
+        }).catch((err) => {
+            console.error("Error: getOrder-> ", err);
+            res.send({"error":err.toString()});
+        })
     }
-    else{
-        //to keep compatibility with last version.
-        configOrderCall = config.jsondb.queryOrderId
-    }
-              
-    adapters.use(configOrderCall, req.body).then((resDB) => {
-        res.send(resDB);
-    }).catch((err) => {
+    catch (err){
         console.error("Error: getOrder-> ", err);
         res.send({"error":err.toString()});
-    })
+    }
 });
 
 app.post('/getPayment', async (req, res) => {
@@ -140,7 +146,7 @@ app.post('/createOrder', async (req, res) => {
     }
     catch (err){
         console.error("Error: createOrder-> ", err);
-            res.send({"error":err.toString()});
+        res.send({"error":err.toString()});
     }
 });
 
@@ -167,12 +173,12 @@ function insertData(order,payment,res){
             */
         }).catch((err) => {
             console.error("Error: createOrder-payment> ", err);
-                res.send({"error":err.toString()});
+            res.send({"error":err.toString()});
         })
 
     }).catch((err) => {
         console.error("Error: createOrder-order-> ", err);
-            res.send({"error":err.toString()});
+        res.send({"error":err.toString()});
     })
 }   
 
