@@ -59,6 +59,7 @@ app.put('/changeStatus', async (req, res) => {
 app.post('/getOrder', async (req, res) => {
     try{
         let configOrderCall = config.jsondb.queryAll;
+        console.log("Info: body -> ", req.body);
         console.log("Info: Param Received -> ", JSON.stringify(req.body));
         if(req.body.orderId == null || req.body.orderId == ""){
           console.log("Info: where request-> ", JSON.stringify(req.body.where));
