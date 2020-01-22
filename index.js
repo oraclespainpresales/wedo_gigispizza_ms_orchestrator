@@ -1,11 +1,10 @@
 'use strict';
 
+// Constants
+const demozone = "MADRID";
 const express = require('express');
-var bodyParser = require('body-parser')
-
 const adapters = require("./adapters.js")
 const config = require("./config.js")
-
 const functions = require("./fn-node-invokebyendpoint/invokefunc.js")
 const fs = require('fs')
 const os = require('os')
@@ -15,10 +14,11 @@ const https = require('https')
 const jsSHA = require('jssha')
 const sshpk = require('sshpk')
 const httpSignature = require('http-signature')
-
 // App
 const app = express();
 
+//vars
+var bodyParser = require('body-parser')
 // parse application/json
 app.use(bodyParser.json())
 
@@ -130,7 +130,9 @@ app.post('/createOrder', async (req, res) => {
             context.privateKey = data
             
             console.log("Total to pay before discount applied (1***):" + totalPaid + "$");
-            functions.invokeFunction(context, fnInvokeEndpoint, totalPaid, function (response) {
+            var totalpaidInput = '{"demozone":"' + demozone + '","paymentMethod":"' + paymentMethod + '","pizzaPrice":"' + totalPaid + '"}'
+            console.log("Input Object:: " + totalpaidInput);
+            functions.invokeFunction(context, fnInvokeEndpoint, totalpaidInput, function (response) {
                 console.log("functionResponse :" + response)
                 // Change the valueof payment.totalPaid
                 payment.totalPaid = response;
