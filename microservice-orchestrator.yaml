@@ -36,7 +36,7 @@ spec:
     spec:
       containers:
       - name: microservice-orchestrator
-        image:  fra.ocir.io/wedoinfra/wedodevops/madrid/msorchestrator:155
+        image:  fra.ocir.io/wedoinfra/wedodevops/madrid/msorchestrator:latest
         env:
         - name: ORCH_PORT
           value: "8080"
