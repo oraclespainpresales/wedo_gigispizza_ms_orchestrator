@@ -113,8 +113,12 @@ app.post('/createOrder', async (req, res) => {
         //Applying a discount calculated with a serverless function
         //if (paymentMethod == "AMEX") {  
         console.log("Searching for a discount");      
+        //original graalvm
         //var fnInvokeEndpoint = "https://gw7unyffbla.eu-frankfurt-1.functions.oci.oraclecloud.com/20181201/functions/ocid1.fnfunc.oc1.eu-frankfurt-1.aaaaaaaaabthjsbtxagfg7hg4wzfmgqpypjog23e342c5bdnpujkznlfoovq/actions/invoke";
-        var fnInvokeEndpoint = "https://gw7unyffbla.eu-frankfurt-1.functions.oci.oraclecloud.com/20181201/functions/ocid1.fnfunc.oc1.eu-frankfurt-1.aaaaaaaaabvnxewuwmunisdmlqpqwxswmmvpw5zkddzluqaf2auphtchfgfq/actions/invoke";
+        //jdbc 
+        //var fnInvokeEndpoint = "https://gw7unyffbla.eu-frankfurt-1.functions.oci.oraclecloud.com/20181201/functions/ocid1.fnfunc.oc1.eu-frankfurt-1.aaaaaaaaabvnxewuwmunisdmlqpqwxswmmvpw5zkddzluqaf2auphtchfgfq/actions/invoke";
+        //con pooled connections:
+        var fnInvokeEndpoint = "https://gw7unyffbla.eu-frankfurt-1.functions.oci.oraclecloud.com/20181201/functions/ocid1.fnfunc.oc1.eu-frankfurt-1.aaaaaaaaaajwmf6ce5ajfqj4v4vvjuffj7rac6fwkeirgeqsszhoubjk6weq/actions/invoke";
         var context = yaml.load('fn-node-invokebyendpoint/config.yaml') // load OCI context values changed
         var keyPath = context.privateKeyPath
         if (keyPath.indexOf('~/') === 0) {
