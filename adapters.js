@@ -10,7 +10,6 @@ function use(config, data) {
     if (config.port == "443"){
         type = "https"
     }
-
     console.log("USE#type ", type);
 
     let result = new Promise(function (resolve, reject) {
@@ -18,7 +17,7 @@ function use(config, data) {
         // request option
         let options = config
         // http or https request object
-        if (type === "http"){
+        if (type == "http"){
             let req = http.request(options, function (res) {
                 let result = '';
 
@@ -43,7 +42,7 @@ function use(config, data) {
             });
 
             //send request
-            console.log("INFO Method: ", options.method);
+            console.log("USE#INFO http Method: ", options.method);
             if (options.method != "GET"){
                 console.log("INFO body: ", JSON.stringify(body));
                 req.write(JSON.stringify(body));
@@ -75,7 +74,7 @@ function use(config, data) {
             });
 
             //send request
-            console.log("INFO Method: ", options.method);
+            console.log("USE#INFO https Method: ", options.method);
             if (options.method != "GET"){
                 console.log("INFO body: ", body);
                 req.write(body);
