@@ -6,7 +6,7 @@ module.exports = {
     jsonfncl: {
         getDiscount: {
             host: "https://fzskntbkilzlpa4dgbyiqbktpm.apigateway.eu-frankfurt-1.oci.customer-oci.com/discount-fn",
-            port: 443,
+            //port: 443,
             method: 'POST',
             path: '/getdiscount',
             headers: {
