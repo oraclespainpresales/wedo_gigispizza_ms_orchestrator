@@ -120,7 +120,7 @@ app.post('/createOrder', async (req, res) => {
         adapters.use(config.jsonfncl.getDiscount, totalpaidInput).then((response) => {
             console.log("functionResponse :" + response)
             // Change the valueof payment.totalPaid
-            payment.totalPaid = response;
+            payment.totalPaid = response.toString();
             console.log("Total to pay after discount applied (1***):" + payment.totalPaid + "$");
             insertData(order,payment,res); 
         }).catch((err) => {
