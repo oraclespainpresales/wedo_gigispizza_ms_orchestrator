@@ -5,13 +5,13 @@ module.exports = {
     //############### JSON API GW CONFIG ####################
     jsonfncl: {
         getDiscount: {
-            host: "https://fzskntbkilzlpa4dgbyiqbktpm.apigateway.eu-frankfurt-1.oci.customer-oci.com",
+            host: "fzskntbkilzlpa4dgbyiqbktpm.apigateway.eu-frankfurt-1.oci.customer-oci.com",
             port: 443,
             method: 'POST',
             path: '/discount-fn/getdiscount',
-            //headers: {
-            //    'Content-Type': 'application/json'
-            //}
+            headers: {
+                'Content-Type': 'application/json'
+            }
         }
     },
     //############### JSON DB CONFIG ########################
