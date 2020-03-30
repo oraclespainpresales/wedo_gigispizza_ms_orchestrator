@@ -7,8 +7,11 @@ function use(config, data) {
 
     console.log("USE#config ", config);
     console.log("USE#port ", config.port);
-    if (config.port === "443")
+    if (config.port === "443"){
         type = "https"
+    }
+
+    console.log("USE#type ", type);
 
     let result = new Promise(function (resolve, reject) {
         let body = data
