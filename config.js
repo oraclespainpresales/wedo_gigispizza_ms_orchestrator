@@ -9,9 +9,9 @@ module.exports = {
             port: 443,
             method: 'POST',
             path: '/discount-fn/getdiscount',
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            //headers: {
+            //    'Content-Type': 'application/json'
+            //}
         }
     },
     //############### JSON DB CONFIG ########################

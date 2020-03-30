@@ -1,37 +1,69 @@
 "use strict";
 const http = require('http');
+const https = require('https');
 
 function use(config, data) {
+    var type = "http"
+
+    console.log("USE#config ", config);
+    console.log("USE#port ", config.port);
+    if (config.port === "443")
+        type = "https"
+
     let result = new Promise(function (resolve, reject) {
         let body = data
         // request option
         let options = config
-        // request object
-        let req = http.request(options, function (res) {
-            let result = '';
+        // http or https request object
+        if (type === "http"){
+            let req = http.request(options, function (res) {
+                let result = '';
 
-            res.on('data', function (chunk) {
-                result += chunk;
+                res.on('data', function (chunk) {
+                    result += chunk;
+                });
+
+                res.on('end', function () {
+                    var response = JSON.parse(result);
+                    resolve(response)
+                });
+
+                res.on('error', function (err) {
+                    console.log("Error calling: " + config.path);
+                    reject(err)
+                })
             });
 
-            res.on('end', function () {
-
-                var response = JSON.parse(result);
-                resolve(response)
-
-            });
-
-            res.on('error', function (err) {
+            req.on('error', function (err) {
                 console.log("Error calling: " + config.path);
                 reject(err)
-            })
-        });
+            });
+        }
+        else{
+            let req = https.request(options, function (res) {
+                let result = '';
 
-        req.on('error', function (err) {
-            console.log("Error calling: " + config.path);
-            reject(err)
-        });
+                res.on('data', function (chunk) {
+                    result += chunk;
+                });
 
+                res.on('end', function () {
+                    var response = JSON.parse(result);
+                    resolve(response)
+                });
+
+                res.on('error', function (err) {
+                    console.log("Error calling: " + config.path);
+                    reject(err)
+                })
+            });
+
+            req.on('error', function (err) {
+                console.log("Error calling: " + config.path);
+                reject(err)
+            });
+        }
+        
         //send request
         console.log("INFO Method: ", options.method);
         if (options.method != "GET"){
