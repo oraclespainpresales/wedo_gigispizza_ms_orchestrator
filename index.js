@@ -113,6 +113,43 @@ app.post('/createOrder', async (req, res) => {
         //Applying a discount calculated with a serverless function
         //if (paymentMethod == "AMEX") {  
         console.log("Searching for a discount");      
+            
+        console.log("Total to pay before discount applied (1***):" + totalPaid + "$");
+        var totalpaidInput = '{"demozone":"' + demozone + '","paymentMethod":"' + paymentMethod + '","pizzaPrice":"' + totalPaid + '"}'
+        console.log("Input Object:: " + totalpaidInput);    
+        adapters.use(config.jsonfncl.getDiscount, totalpaidInput).then((response) => {
+            console.log("functionResponse :" + response)
+            // Change the valueof payment.totalPaid
+            payment.totalPaid = response;
+            console.log("Total to pay after discount applied (1***):" + payment.totalPaid + "$");
+            insertData(order,payment,res); 
+        }).catch((err) => {
+            console.error("Error: getOrder-> ", err);
+            res.send({"error":err.toString()});
+        })        
+    }
+    catch (err){
+        console.error("Error: createOrder-> ", err);
+        res.send({"error":err.toString()});
+    }
+});
+
+/* app.post('/createOrder', async (req, res) => {
+    try {
+        //Payload to call at "config.jsondb.insert"
+        let order   = req.body.order
+        let payment = req.body.payment
+                
+        //console.log(req.body);
+        console.log("ORDER-BODY",order);
+        console.log("PAYMENT-BODY",payment);
+
+        let paymentMethod = req.body.payment.paymentMethod;
+        let totalPaid     = req.body.payment.totalPaid;
+
+        //Applying a discount calculated with a serverless function
+        //if (paymentMethod == "AMEX") {  
+        console.log("Searching for a discount");      
         //original graalvm
         //var fnInvokeEndpoint = "https://gw7unyffbla.eu-frankfurt-1.functions.oci.oraclecloud.com/20181201/functions/ocid1.fnfunc.oc1.eu-frankfurt-1.aaaaaaaaabthjsbtxagfg7hg4wzfmgqpypjog23e342c5bdnpujkznlfoovq/actions/invoke";
         //jdbc 
@@ -135,7 +172,7 @@ app.post('/createOrder', async (req, res) => {
             
             console.log("Total to pay before discount applied (1***):" + totalPaid + "$");
             var totalpaidInput = '{"demozone":"' + demozone + '","paymentMethod":"' + paymentMethod + '","pizzaPrice":"' + totalPaid + '"}'
-            console.log("Input Object:: " + totalpaidInput);
+            console.log("Input Object:: " + totalpaidInput);            
             functions.invokeFunction(context, fnInvokeEndpoint, totalpaidInput, function (response) {
                 console.log("functionResponse :" + response)
                 // Change the valueof payment.totalPaid
@@ -154,7 +191,7 @@ app.post('/createOrder', async (req, res) => {
         console.error("Error: createOrder-> ", err);
         res.send({"error":err.toString()});
     }
-});
+}); */
 
 //############################## Helper Functions ###############################
 function insertData(order,payment,res){

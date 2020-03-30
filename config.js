@@ -2,7 +2,18 @@ module.exports = {
     //################## Web server Config ##########################
     PORT: process.env.ORCH_PORT || 4000,
     HOST: process.env.ORCH_HOST || 'localhost',
-
+    //############### JSON API GW CONFIG ####################
+    jsonfncl: {
+        getDiscount: {
+            host: "https://fzskntbkilzlpa4dgbyiqbktpm.apigateway.eu-frankfurt-1.oci.customer-oci.com/discount-fn",
+            port: 443,
+            method: 'POST',
+            path: '/getdiscount',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    },
     //############### JSON DB CONFIG ########################
     jsondbcl: {
         insert: {
