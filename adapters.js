@@ -38,6 +38,14 @@ function use(config, data) {
                 console.log("Error calling: " + config.path);
                 reject(err)
             });
+
+            //send request
+            console.log("INFO Method: ", options.method);
+            if (options.method != "GET"){
+                console.log("INFO body: ", JSON.stringify(body));
+                req.write(JSON.stringify(body));
+            }
+            req.end();
         }
         else{
             let req = https.request(options, function (res) {
@@ -62,15 +70,15 @@ function use(config, data) {
                 console.log("Error calling: " + config.path);
                 reject(err)
             });
+
+            //send request
+            console.log("INFO Method: ", options.method);
+            if (options.method != "GET"){
+                console.log("INFO body: ", JSON.stringify(body));
+                req.write(JSON.stringify(body));
+            }
+            req.end();
         }
-        
-        //send request
-        console.log("INFO Method: ", options.method);
-        if (options.method != "GET"){
-            console.log("INFO body: ", JSON.stringify(body));
-            req.write(JSON.stringify(body));
-        }
-        req.end();
     });
 
     return result
